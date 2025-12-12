@@ -3,12 +3,14 @@ import styles from "./module/RegisterPage.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/httpReqest";
+import validateForm from "../utils/validation";
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const [alert, setAlert] = useState("");
 
   const [input, setInput] = useState({
-    userName: "",
+    username: "",
     password: "",
     checkPassword: "",
   });
@@ -27,9 +29,15 @@ function RegisterPage() {
   };
 
   const submitHandler = () => {
-    const username = input.userName;
-    const password = input.password;
+    
+    if (!username) {
+      setAlert;
+    }
+
     try {
+      // const validation = validateForm(username, password);
+      // if (!validation) return;
+
       axios
         .post(`${BASE_URL}/auth/register`, {
           username: username,
@@ -55,14 +63,14 @@ function RegisterPage() {
             onChange={inputHandler}
           />
           <input
-            type="number"
+            type="password"
             placeholder="رمز عبور"
             name="password"
             value={input.password}
             onChange={inputHandler}
           />
           <input
-            type="number"
+            type="password"
             placeholder="تکرار رمز عبور"
             name="checkPassword"
             value={input.checkPassword}
